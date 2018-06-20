@@ -1,0 +1,4 @@
+BasicRank;0
+Rank1;5700;you have been upgraded to Rank1
+Rank2;5760;you have been upgraded to Rank2
+Rank3;5820;you have been upgraded to Rank3

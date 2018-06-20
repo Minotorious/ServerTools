@@ -1,0 +1,5 @@
+onlogin;example1;[#ff8800];This is a message every player except for new players will see upon login
+onloginnew;example2;[#ff8800];This is a message only new players will see upon login
+onloginadmin;example3;[#0099ee];This is a message only admins will see upon login
+onloginadminbroadcast;example4;[#dd00ee];This is a message all players will see when an admin logs in (the admin will not see it)
+recurring;example5;[#dd00ee];60;This is a recurring message occuring every 60 seconds

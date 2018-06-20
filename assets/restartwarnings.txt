@@ -1,0 +1,3 @@
+restartTimes=03:00;09:00;15:00;21:00
+restartWarningsMinutes=15;10;5;1
+restartWarningsSeconds=30;15;10;5

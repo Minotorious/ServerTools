@@ -1,0 +1,1 @@
+example;[#eeee00];This is an automated message example. Please follow this semicolon syntax to add more
