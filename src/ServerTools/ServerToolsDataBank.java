@@ -17,6 +17,14 @@ public class ServerToolsDataBank {
     public static Timer voteDayTimer;
     public static Timer voteDayCoolDownTimer;
     public static String pluginPath;
+    public static final int GENERAL_TAB_GUI = 1;
+    public static final int MESSAGES_TAB_GUI = 2;
+    public static final int ANNOUNCEMENTS_TAB_GUI = 3;
+    public static final int RANKING_TAB_GUI = 4;
+    public static final int BANNED_LISTS_TAB_GUI = 5;
+    public static final int BLACKLIST_TAB_GUI = 6;
+    public static final int REST_WARN_TAB_GUI = 7;
+    public static final int SETTINGS_TAB_GUI = 0;
     
     public static class messagelist{
         private static ArrayList<ServerToolsObjects.message> messages;

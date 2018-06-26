@@ -34,7 +34,7 @@ public class ServerToolsCommandListener implements Listener {
         String command = event.getCommand();
         String[] cmd = command.split(" ");
         if (cmd[0].equals("/st")){
-            if (player.isAdmin()){
+            if (player.isAdmin() || player.getPermissionGroup().equals(ServerToolsUtils.SettingbyName("PluginAdminAccessPermGroup"))){
                 if (cmd.length >= 2){
                     switch (cmd[1]) {
                         case "lastonline":
@@ -460,7 +460,7 @@ public class ServerToolsCommandListener implements Listener {
                                 }
                                 break;
                             case "list":
-                                if (player.isAdmin()){
+                                if (player.isAdmin() || player.getPermissionGroup().equals(ServerToolsUtils.SettingbyName("PluginAdminAccessPermGroup"))){
                                     ArrayList<ServerToolsObjects.autoGM1listplayer> autoGM1list = ServerToolsDataBank.Autogm1List.getAutogm1List();
                                     int count = 1;
                                     for (ServerToolsObjects.autoGM1listplayer autoGM1player : autoGM1list){
@@ -473,7 +473,7 @@ public class ServerToolsCommandListener implements Listener {
                                 player.sendTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "Available Autogm1 Commands:");
                                 player.sendTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "/autogm1 set, add yourself to the list for auto gm 1 upon login");
                                 player.sendTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "/autogm1 del, remove yourself from the list for auto gm 1 upon login");
-                                if (player.isAdmin()){
+                                if (player.isAdmin() || player.getPermissionGroup().equals(ServerToolsUtils.SettingbyName("PluginAdminAccessPermGroup"))){
                                     player.sendTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "/autogm1 list, shows all UIDs in the autogm1 list");
                                 }
                                 break;

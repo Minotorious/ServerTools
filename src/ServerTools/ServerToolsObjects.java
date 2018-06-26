@@ -1,8 +1,5 @@
 package ServerTools;
 
-import net.risingworld.api.gui.GuiLabel;
-import net.risingworld.api.gui.GuiImage;
-
 public class ServerToolsObjects {
     
     public class rank{

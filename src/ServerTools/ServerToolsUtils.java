@@ -1,5 +1,8 @@
 package ServerTools;
 
+import ServerTools.GuiComponents.ServerToolsVoteDayGui;
+import ServerTools.GuiComponents.ServerToolsMainPanelGui;
+
 import net.risingworld.api.gui.GuiPanel;
 import net.risingworld.api.gui.GuiLabel;
 import net.risingworld.api.gui.GuiImage;
@@ -21,13 +24,13 @@ public class ServerToolsUtils {
     }
     
     public static void setVoteDayGuiAttributes(Player player){
-        GuiPanel personalVoteDayPanel = ServerToolsGUI.createVoteDayGuiPanel();
-        GuiLabel personalVoteDayDescriptionLabel = ServerToolsGUI.createVoteDayDescriptionGuiLabel();
-        GuiLabel personalVoteDayTimerLabel = ServerToolsGUI.createVoteDayTimerGuiLabel();
-        GuiImage personalVoteDayYesImageLabel = ServerToolsGUI.createVoteDayYesGuiImageLabel();
-        GuiLabel personalVoteDayYesTextLabel = ServerToolsGUI.createVoteDayYesTextGuiLabel();
-        GuiImage personalVoteDayNoImageLabel = ServerToolsGUI.createVoteDayNoGuiImageLabel();
-        GuiLabel personalVoteDayNoTextLabel = ServerToolsGUI.createVoteDayNoTextGuiLabel();
+        GuiPanel personalVoteDayPanel = ServerToolsVoteDayGui.createVoteDayGuiPanel();
+        GuiLabel personalVoteDayDescriptionLabel = ServerToolsVoteDayGui.createVoteDayDescriptionGuiLabel();
+        GuiLabel personalVoteDayTimerLabel = ServerToolsVoteDayGui.createVoteDayTimerGuiLabel();
+        GuiImage personalVoteDayYesImageLabel = ServerToolsVoteDayGui.createVoteDayYesGuiImageLabel();
+        GuiLabel personalVoteDayYesTextLabel = ServerToolsVoteDayGui.createVoteDayYesTextGuiLabel();
+        GuiImage personalVoteDayNoImageLabel = ServerToolsVoteDayGui.createVoteDayNoGuiImageLabel();
+        GuiLabel personalVoteDayNoTextLabel = ServerToolsVoteDayGui.createVoteDayNoTextGuiLabel();
         
         personalVoteDayPanel.addChild(personalVoteDayDescriptionLabel);
         personalVoteDayPanel.addChild(personalVoteDayTimerLabel);
@@ -72,24 +75,24 @@ public class ServerToolsUtils {
     }
     
     public static void setMainPanelAttributes(Player player){
-        GuiPanel personalMainPanel = ServerToolsGUI.createServerToolsMainPanel();
-        GuiLabel personalHeaderLabel = ServerToolsGUI.createServerToolsHeaderLabel();
-        GuiImage personalGeneralTabImage = ServerToolsGUI.createServerToolsGeneralTabImage();
-        GuiLabel personalGeneralTabLabel = ServerToolsGUI.createServerToolsGeneralTabLabel();
-        GuiImage personalMessagesTabImage = ServerToolsGUI.createServerToolsMessagesTabImage();
-        GuiLabel personalMessagesTabLabel = ServerToolsGUI.createServerToolsMessagesTabLabel();
-        GuiImage personalAnnouncementsTabImage = ServerToolsGUI.createServerToolsAnnouncementsTabImage();
-        GuiLabel personalAnnouncementsTabLabel = ServerToolsGUI.createServerToolsAnnouncementsTabLabel();
-        GuiImage personalRankingTabImage = ServerToolsGUI.createServerToolsRankingTabImage();
-        GuiLabel personalRankingTabLabel = ServerToolsGUI.createServerToolsRankingTabLabel();
-        GuiImage personalBannedListsTabImage = ServerToolsGUI.createServerToolsBannedListsTabImage();
-        GuiLabel personalBannedListsTabLabel = ServerToolsGUI.createServerToolsBannedListsTabLabel();
-        GuiImage personalBlacklistTabImage = ServerToolsGUI.createServerToolsBlacklistTabImage();
-        GuiLabel personalBlacklistTabLabel = ServerToolsGUI.createServerToolsBlacklistTabLabel();
-        GuiImage personalRestWarnTabImage = ServerToolsGUI.createServerToolsRestWarnTabImage();
-        GuiLabel personalRestWarnTabLabel = ServerToolsGUI.createServerToolsRestWarnTabLabel();
-        GuiImage personalSettingsTabImage = ServerToolsGUI.createServerToolsSettingsTabImage();
-        GuiLabel personalSettingsTabLabel = ServerToolsGUI.createServerToolsSettingsTabLabel();
+        GuiPanel personalMainPanel = ServerToolsMainPanelGui.createServerToolsMainPanel();
+        GuiLabel personalHeaderLabel = ServerToolsMainPanelGui.createServerToolsHeaderLabel();
+        GuiImage personalGeneralTabImage = ServerToolsMainPanelGui.createServerToolsGeneralTabImage();
+        GuiLabel personalGeneralTabLabel = ServerToolsMainPanelGui.createServerToolsGeneralTabLabel();
+        GuiImage personalMessagesTabImage = ServerToolsMainPanelGui.createServerToolsMessagesTabImage();
+        GuiLabel personalMessagesTabLabel = ServerToolsMainPanelGui.createServerToolsMessagesTabLabel();
+        GuiImage personalAnnouncementsTabImage = ServerToolsMainPanelGui.createServerToolsAnnouncementsTabImage();
+        GuiLabel personalAnnouncementsTabLabel = ServerToolsMainPanelGui.createServerToolsAnnouncementsTabLabel();
+        GuiImage personalRankingTabImage = ServerToolsMainPanelGui.createServerToolsRankingTabImage();
+        GuiLabel personalRankingTabLabel = ServerToolsMainPanelGui.createServerToolsRankingTabLabel();
+        GuiImage personalBannedListsTabImage = ServerToolsMainPanelGui.createServerToolsBannedListsTabImage();
+        GuiLabel personalBannedListsTabLabel = ServerToolsMainPanelGui.createServerToolsBannedListsTabLabel();
+        GuiImage personalBlacklistTabImage = ServerToolsMainPanelGui.createServerToolsBlacklistTabImage();
+        GuiLabel personalBlacklistTabLabel = ServerToolsMainPanelGui.createServerToolsBlacklistTabLabel();
+        GuiImage personalRestWarnTabImage = ServerToolsMainPanelGui.createServerToolsRestWarnTabImage();
+        GuiLabel personalRestWarnTabLabel = ServerToolsMainPanelGui.createServerToolsRestWarnTabLabel();
+        GuiImage personalSettingsTabImage = ServerToolsMainPanelGui.createServerToolsSettingsTabImage();
+        GuiLabel personalSettingsTabLabel = ServerToolsMainPanelGui.createServerToolsSettingsTabLabel();
         
         personalMainPanel.addChild(personalHeaderLabel);
         personalMainPanel.addChild(personalGeneralTabImage);
@@ -109,6 +112,8 @@ public class ServerToolsUtils {
         personalBlacklistTabImage.addChild(personalBlacklistTabLabel);
         personalRestWarnTabImage.addChild(personalRestWarnTabLabel);
         personalSettingsTabImage.addChild(personalSettingsTabLabel);
+        
+        player.setAttribute("STPreviousTab", 1);
         
         player.setAttribute("STMainPanel", personalMainPanel);
         player.setAttribute("STHeaderLabel", personalHeaderLabel);
@@ -187,5 +192,162 @@ public class ServerToolsUtils {
         personalRestWarnTabLabel.setVisible(showHide);
         personalSettingsTabImage.setVisible(showHide);
         personalSettingsTabLabel.setVisible(showHide);
+    }
+    
+    public static void showHideGeneralTabGui(Player player, boolean showHide){
+        GuiLabel personalGeneralTabLabel = (GuiLabel) player.getAttribute("STGeneralTabLabel");
+        
+        if (showHide){
+            personalGeneralTabLabel.setFontColor(0.765f, 0.808f, 0.110f, 1.0f);
+        }
+        else {
+            personalGeneralTabLabel.setFontColor(1.0f, 0.533f, 0.0f, 1.0f);
+        }
+    }
+    
+    public static void showHideMessagesTabGui(Player player, boolean showHide){
+        GuiLabel personalMessagesTabLabel = (GuiLabel) player.getAttribute("STMessagesTabLabel");
+        
+        if (showHide){
+            personalMessagesTabLabel.setFontColor(0.765f, 0.808f, 0.110f, 1.0f);
+        }
+        else {
+            personalMessagesTabLabel.setFontColor(1.0f, 0.533f, 0.0f, 1.0f);
+        }
+    }
+    
+    public static void showHideAnnouncementsTabGui(Player player, boolean showHide){
+        GuiLabel personalAnnouncementsTabLabel = (GuiLabel) player.getAttribute("STAnnouncementsTabLabel");
+        
+        if (showHide){
+            personalAnnouncementsTabLabel.setFontColor(0.765f, 0.808f, 0.110f, 1.0f);
+        }
+        else {
+            personalAnnouncementsTabLabel.setFontColor(1.0f, 0.533f, 0.0f, 1.0f);
+        }
+    }
+    
+    public static void showHideRankingTabGui(Player player, boolean showHide){
+        GuiLabel personalRankingTabLabel = (GuiLabel) player.getAttribute("STRankingTabLabel");
+        
+        if (showHide){
+            personalRankingTabLabel.setFontColor(0.765f, 0.808f, 0.110f, 1.0f);
+        }
+        else {
+            personalRankingTabLabel.setFontColor(1.0f, 0.533f, 0.0f, 1.0f);
+        }
+    }
+    
+    public static void showHideBannedListsTabGui(Player player, boolean showHide){
+        GuiLabel personalBannedListsTabLabel = (GuiLabel) player.getAttribute("STBannedListsTabLabel");
+        
+        if (showHide){
+            personalBannedListsTabLabel.setFontColor(0.765f, 0.808f, 0.110f, 1.0f);
+        }
+        else {
+            personalBannedListsTabLabel.setFontColor(1.0f, 0.533f, 0.0f, 1.0f);
+        }
+    }
+    
+    public static void showHideBlacklistTabGui(Player player, boolean showHide){
+        GuiLabel personalBlacklistTabLabel = (GuiLabel) player.getAttribute("STBlacklistTabLabel");
+        
+        if (showHide){
+            personalBlacklistTabLabel.setFontColor(0.765f, 0.808f, 0.110f, 1.0f);
+        }
+        else {
+            personalBlacklistTabLabel.setFontColor(1.0f, 0.533f, 0.0f, 1.0f);
+        }
+    }
+    
+    public static void showHideRestWarnTabGui(Player player, boolean showHide){
+        GuiLabel personalRestWarnTabLabel = (GuiLabel) player.getAttribute("STRestWarnTabLabel");
+        
+        if (showHide){
+            personalRestWarnTabLabel.setFontColor(0.765f, 0.808f, 0.110f, 1.0f);
+        }
+        else {
+            personalRestWarnTabLabel.setFontColor(1.0f, 0.533f, 0.0f, 1.0f);
+        }
+    }
+    
+    public static void showHideSettingsTabGui(Player player, boolean showHide){
+        GuiLabel personalSettingsTabLabel = (GuiLabel) player.getAttribute("STSettingsTabLabel");
+        
+        if (showHide){
+            personalSettingsTabLabel.setFontColor(0.765f, 0.808f, 0.110f, 1.0f);
+        }
+        else {
+            personalSettingsTabLabel.setFontColor(1.0f, 0.533f, 0.0f, 1.0f);
+        }
+    }
+    
+    public static void switchTab(Player player, int previousTab, int nextTab){
+        
+        switch (previousTab) {
+            case ServerToolsDataBank.GENERAL_TAB_GUI:
+                showHideGeneralTabGui(player, false);
+                break;
+            case ServerToolsDataBank.MESSAGES_TAB_GUI:
+                showHideMessagesTabGui(player, false);
+                break;
+            case ServerToolsDataBank.ANNOUNCEMENTS_TAB_GUI:
+                showHideAnnouncementsTabGui(player, false);
+                break;
+            case ServerToolsDataBank.RANKING_TAB_GUI:
+                showHideRankingTabGui(player, false);
+                break;
+            case ServerToolsDataBank.BANNED_LISTS_TAB_GUI:
+                showHideBannedListsTabGui(player, false);
+                break;
+            case ServerToolsDataBank.BLACKLIST_TAB_GUI:
+                showHideBlacklistTabGui(player, false);
+                break;
+            case ServerToolsDataBank.REST_WARN_TAB_GUI:
+                showHideRestWarnTabGui(player, false);
+                break;
+            case ServerToolsDataBank.SETTINGS_TAB_GUI:
+                showHideSettingsTabGui(player, false);
+                break;
+            default:
+                break;
+        }
+        
+        switch (nextTab) {
+            case ServerToolsDataBank.GENERAL_TAB_GUI:
+                showHideGeneralTabGui(player, true);
+                player.setAttribute("STPreviousTab", ServerToolsDataBank.GENERAL_TAB_GUI);
+                break;
+            case ServerToolsDataBank.MESSAGES_TAB_GUI:
+                showHideMessagesTabGui(player, true);
+                player.setAttribute("STPreviousTab", ServerToolsDataBank.MESSAGES_TAB_GUI);
+                break;
+            case ServerToolsDataBank.ANNOUNCEMENTS_TAB_GUI:
+                showHideAnnouncementsTabGui(player, true);
+                player.setAttribute("STPreviousTab", ServerToolsDataBank.ANNOUNCEMENTS_TAB_GUI);
+                break;
+            case ServerToolsDataBank.RANKING_TAB_GUI:
+                showHideRankingTabGui(player, true);
+                player.setAttribute("STPreviousTab", ServerToolsDataBank.RANKING_TAB_GUI);
+                break;
+            case ServerToolsDataBank.BANNED_LISTS_TAB_GUI:
+                showHideBannedListsTabGui(player, true);
+                player.setAttribute("STPreviousTab", ServerToolsDataBank.BANNED_LISTS_TAB_GUI);
+                break;
+            case ServerToolsDataBank.BLACKLIST_TAB_GUI:
+                showHideBlacklistTabGui(player, true);
+                player.setAttribute("STPreviousTab", ServerToolsDataBank.BLACKLIST_TAB_GUI);
+                break;
+            case ServerToolsDataBank.REST_WARN_TAB_GUI:
+                showHideRestWarnTabGui(player, true);
+                player.setAttribute("STPreviousTab", ServerToolsDataBank.REST_WARN_TAB_GUI);
+                break;
+            case ServerToolsDataBank.SETTINGS_TAB_GUI:
+                showHideSettingsTabGui(player, true);
+                player.setAttribute("STPreviousTab", ServerToolsDataBank.SETTINGS_TAB_GUI);
+                break;
+            default:
+                break;
+        }
     }
 }

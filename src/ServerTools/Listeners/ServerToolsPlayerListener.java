@@ -58,7 +58,7 @@ public class ServerToolsPlayerListener implements Listener {
     public void onItemPickUp(PlayerInventoryAddEvent event){
         if (ServerToolsUtils.SettingbyName("PoliceBotMode").equals("on")){
             Player player = event.getPlayer();
-            if (!player.isAdmin()){
+            if (!player.isAdmin() || !player.getPermissionGroup().equals(ServerToolsUtils.SettingbyName("PluginAdminAccessPermGroup"))){
                 Item item = event.getItem();
                 for (String BannedItem : ServerToolsDataBank.BannedLists.getBannedItems()){
                     if (item.getName().equals(BannedItem)){
@@ -74,7 +74,7 @@ public class ServerToolsPlayerListener implements Listener {
     public void onItemPickUpFromChest(PlayerChestToInventoryEvent event){
         if (ServerToolsUtils.SettingbyName("PoliceBotMode").equals("on")){
             Player player = event.getPlayer();
-            if (!player.isAdmin()){
+            if (!player.isAdmin() || !player.getPermissionGroup().equals(ServerToolsUtils.SettingbyName("PluginAdminAccessPermGroup"))){
                 Item item = event.getItem();
                 if (item != null){
                     for (String BannedItem : ServerToolsDataBank.BannedLists.getBannedItems()){
@@ -101,7 +101,7 @@ public class ServerToolsPlayerListener implements Listener {
                 }
             }
         }
-        else if (player.isAdmin()){
+        else if (player.isAdmin() || player.getPermissionGroup().equals(ServerToolsUtils.SettingbyName("PluginAdminAccessPermGroup"))){
             for (int i=0;i<ann.size();i++){
                 if (ann.get(i).type.equals("onlogin") || ann.get(i).type.equals("onloginadmin")){
                     player.sendTextMessage(ann.get(i).colourcode + ServerToolsUtils.SettingbyName("AutoMessageBotName") + ": " + ann.get(i).text);
@@ -132,8 +132,9 @@ public class ServerToolsPlayerListener implements Listener {
         }
         
         ServerToolsUtils.setVoteDayGuiAttributes(player);
-        if (player.isAdmin()){
+        if (player.isAdmin() || player.getPermissionGroup().equals(ServerToolsUtils.SettingbyName("PluginAdminAccessPermGroup"))){
             ServerToolsUtils.setMainPanelAttributes(player);
+            player.setMouseCursorVisible(true);
             ServerToolsUtils.showHideMainGui(player, true);
         }
     }
@@ -142,7 +143,7 @@ public class ServerToolsPlayerListener implements Listener {
     public void onPlayerConnect(PlayerConnectEvent event){
         Player player = event.getPlayer();
         ArrayList<ServerToolsObjects.announcement> ann = ServerToolsDataBank.messagelist.getAnnouncements();
-        if (player.isAdmin()){
+        if (player.isAdmin() || player.getPermissionGroup().equals(ServerToolsUtils.SettingbyName("PluginAdminAccessPermGroup"))){
             for (int i=0;i<ann.size();i++){
                 if (ann.get(i).type.equals("onloginadminbroadcast")){
                     STM.getServer().broadcastTextMessage(ann.get(i).colourcode + ServerToolsUtils.SettingbyName("AutoMessageBotName") + ": " + ann.get(i).text);
