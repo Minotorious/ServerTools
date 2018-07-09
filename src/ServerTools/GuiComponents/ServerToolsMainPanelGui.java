@@ -29,6 +29,18 @@ public class ServerToolsMainPanelGui {
         return headerLabel;
     }
     
+    public static GuiLabel createServerToolsCloseLabel(){
+        GuiLabel closeLabel = new GuiLabel("X ", 1.0f, 1.0f, true);
+        closeLabel.setPivot(PivotPosition.TopRight);
+        closeLabel.setFontSize(20);
+        closeLabel.setFontColor(1.0f, 0.533f, 0.0f, 1.0f);
+        closeLabel.setColor(0.0f, 0.0f, 0.0f, 0.0f);
+        closeLabel.setClickable(true);
+        closeLabel.setVisible(false);
+        
+        return closeLabel;
+    }
+    
     public static GuiImage createServerToolsGeneralTabImage(){
         GuiImage generalTabImage = new GuiImage(0f, 980f, false, 152f, 50f, false);
         generalTabImage.setPivot(PivotPosition.TopLeft);
@@ -45,7 +57,7 @@ public class ServerToolsMainPanelGui {
         GuiLabel generalTabLabel = new GuiLabel("General", 0.5f, 0.5f, true);
         generalTabLabel.setPivot(PivotPosition.Center);
         generalTabLabel.setFontSize(20);
-        generalTabLabel.setFontColor(0.765f, 0.808f, 0.110f, 1.0f);
+        generalTabLabel.setFontColor(1.0f, 0.533f, 0.0f, 1.0f);
         generalTabLabel.setClickable(true);
         generalTabLabel.setVisible(false);
         

@@ -113,7 +113,7 @@ public class ServerToolsDataBase {
         try{
             PreparedStatement prep = con.prepareStatement("INSERT INTO Settings (SettingName,SettingValue) VALUES (?,?)");
                 prep.setString(1, "PoliceBotMode");
-                prep.setString(2, "on");
+                prep.setString(2, "On");
                 
                 prep.executeUpdate();
         }
@@ -143,7 +143,7 @@ public class ServerToolsDataBase {
         try{
             PreparedStatement prep = con.prepareStatement("INSERT INTO Settings (SettingName,SettingValue) VALUES (?,?)");
                 prep.setString(1, "RankingBotMode");
-                prep.setString(2, "on");
+                prep.setString(2, "On");
                 
                 prep.executeUpdate();
         }
@@ -193,7 +193,7 @@ public class ServerToolsDataBase {
         try{
             PreparedStatement prep = con.prepareStatement("INSERT INTO Settings (SettingName,SettingValue) VALUES (?,?)");
                 prep.setString(1, "Autogm1Mode");
-                prep.setString(2, "on");
+                prep.setString(2, "On");
                 
                 prep.executeUpdate();
         }
@@ -223,7 +223,7 @@ public class ServerToolsDataBase {
         try{
             PreparedStatement prep = con.prepareStatement("INSERT INTO Settings (SettingName,SettingValue) VALUES (?,?)");
                 prep.setString(1, "RestartWarningsMode");
-                prep.setString(2, "on");
+                prep.setString(2, "On");
                 
                 prep.executeUpdate();
         }
@@ -263,7 +263,7 @@ public class ServerToolsDataBase {
         try{
             PreparedStatement prep = con.prepareStatement("INSERT INTO Settings (SettingName,SettingValue) VALUES (?,?)");
                 prep.setString(1, "VoteDayCommand");
-                prep.setString(2, "on");
+                prep.setString(2, "On");
                 
                 prep.executeUpdate();
         }

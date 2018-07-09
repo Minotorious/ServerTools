@@ -1,5 +1,6 @@
 package ServerTools;
 
+import ServerTools.Utils.ServerToolsGeneralUtils;
 import ServerTools.Listeners.ServerToolsCommandListener;
 import ServerTools.Listeners.ServerToolsPlayerListener;
 import ServerTools.Listeners.ServerToolsGUIListener;
@@ -46,15 +47,15 @@ public class ServerToolsMain extends Plugin {
         ReadFiles();
         ReadAMFiles();
         STTI.RecurringMessages();
-        if (ServerToolsUtils.SettingbyName("RankingBotMode").equals("on")){
+        if (ServerToolsGeneralUtils.SettingbyName("RankingBotMode").equals("on")){
             STTI.RankCheckTimerInit();
         }
-        if (ServerToolsUtils.SettingbyName("RestartWarningsMode").equals("on")){
+        if (ServerToolsGeneralUtils.SettingbyName("RestartWarningsMode").equals("on")){
             readRestartWarnings();
             STTI.initRestartTimer();
         }
-        if (ServerToolsUtils.SettingbyName("VoteDayCommand").equals("on")){
-            ServerToolsDataBank.voteDayCoolDownTimer = new Timer(Float.parseFloat(ServerToolsUtils.SettingbyName("VoteDayTimerDuration")) + Float.parseFloat(ServerToolsUtils.SettingbyName("VoteDayTimerCoolDown")), 0f, 0, null);
+        if (ServerToolsGeneralUtils.SettingbyName("VoteDayCommand").equals("on")){
+            ServerToolsDataBank.voteDayCoolDownTimer = new Timer(Float.parseFloat(ServerToolsGeneralUtils.SettingbyName("VoteDayTimerDuration")) + Float.parseFloat(ServerToolsGeneralUtils.SettingbyName("VoteDayTimerCoolDown")), 0f, 0, null);
         }
     }
     

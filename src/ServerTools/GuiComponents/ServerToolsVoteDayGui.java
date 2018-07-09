@@ -1,6 +1,6 @@
 package ServerTools.GuiComponents;
 
-import ServerTools.ServerToolsUtils;
+import ServerTools.Utils.ServerToolsGeneralUtils;
 import net.risingworld.api.gui.GuiImage;
 import net.risingworld.api.gui.GuiLabel;
 import net.risingworld.api.gui.GuiPanel;
@@ -20,7 +20,7 @@ public class ServerToolsVoteDayGui {
         return voteDayPanel;
     }
     
-    public static GuiImage createVoteDayYesGuiImageLabel(){
+    public static GuiImage createVoteDayYesGuiImage(){
         GuiImage yesImageLabel = new GuiImage(0.25f, 0.3f, true, 100f, 50f, false);
         yesImageLabel.setPivot(PivotPosition.Center);
         yesImageLabel.setColor(0.160f, 0.780f, 0.196f, 1.0f);
@@ -30,7 +30,7 @@ public class ServerToolsVoteDayGui {
         return yesImageLabel;
     }
     
-    public static GuiLabel createVoteDayYesTextGuiLabel(){
+    public static GuiLabel createVoteDayYesGuiLabel(){
         GuiLabel yesTextLabel = new GuiLabel("YES", 0.5f, 0.5f, true);
         yesTextLabel.setPivot(PivotPosition.Center);
         yesTextLabel.setFontColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -40,7 +40,7 @@ public class ServerToolsVoteDayGui {
         return yesTextLabel;
     }
     
-    public static GuiImage createVoteDayNoGuiImageLabel(){
+    public static GuiImage createVoteDayNoGuiImage(){
         GuiImage noImageLabel = new GuiImage(0.75f, 0.3f, true, 100f, 50f, false);
         noImageLabel.setPivot(PivotPosition.Center);
         noImageLabel.setColor(0.780f, 0.180f, 0.160f, 1.0f);
@@ -50,7 +50,7 @@ public class ServerToolsVoteDayGui {
         return noImageLabel;
     }
     
-    public static GuiLabel createVoteDayNoTextGuiLabel(){
+    public static GuiLabel createVoteDayNoGuiLabel(){
         GuiLabel noTextLabel = new GuiLabel("NO", 0.5f, 0.5f, true);
         noTextLabel.setPivot(PivotPosition.Center);
         noTextLabel.setFontColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -72,7 +72,7 @@ public class ServerToolsVoteDayGui {
     }
     
     public static GuiLabel createVoteDayTimerGuiLabel(){
-        GuiLabel timerLabel = new GuiLabel(ServerToolsUtils.SettingbyName("VoteDayTimerDuration"), 0.5f, 0.7f, true);
+        GuiLabel timerLabel = new GuiLabel(ServerToolsGeneralUtils.SettingbyName("VoteDayTimerDuration"), 0.5f, 0.7f, true);
         timerLabel.setPivot(PivotPosition.Center);
         timerLabel.setFontSize(30);
         timerLabel.setFontColor(1.0f, 0.533f, 0.0f, 1.0f);

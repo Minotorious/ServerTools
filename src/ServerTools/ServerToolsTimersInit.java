@@ -1,5 +1,7 @@
 package ServerTools;
 
+import ServerTools.Utils.ServerToolsGeneralUtils;
+import ServerTools.Utils.ServerToolsShowHideGui;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import net.risingworld.api.Timer;
@@ -11,16 +13,16 @@ public class ServerToolsTimersInit {
     ServerToolsMain STM = new ServerToolsMain();
     
     public void RankCheckTimerInit(){
-        Timer timer = new Timer(Float.parseFloat(ServerToolsUtils.SettingbyName("RankcheckTimer")),0f,-1,()->{
+        Timer timer = new Timer(Float.parseFloat(ServerToolsGeneralUtils.SettingbyName("RankcheckTimer")),0f,-1,()->{
             for(Player player : STM.getServer().getAllPlayers()){
                 int playtime = player.getTotalPlayTime();
                 String permission = player.getPermissionGroup();
                 for(int i=1;i<ServerToolsDataBank.Ranks.getRankList().size();i++){
                     if (playtime > ServerToolsDataBank.Ranks.getRankList().get(i).reqtime && permission.equals(ServerToolsDataBank.Ranks.getRankList().get(i-1).name)){
                         player.setPermissionGroup(ServerToolsDataBank.Ranks.getRankList().get(i).name);
-                        STM.getServer().broadcastTextMessage(ServerToolsUtils.SettingbyName("RankingBotChatColour") + ServerToolsUtils.SettingbyName("RankingBotName") + ": " + player.getName() + " is now a " + player.getPermissionGroup() + "!");
+                        STM.getServer().broadcastTextMessage(ServerToolsGeneralUtils.SettingbyName("RankingBotChatColour") + ServerToolsGeneralUtils.SettingbyName("RankingBotName") + ": " + player.getName() + " is now a " + player.getPermissionGroup() + "!");
                         if (!ServerToolsDataBank.Ranks.getRankList().get(i).message.isEmpty()){
-                            player.sendTextMessage(ServerToolsUtils.SettingbyName("RankingBotChatColour") + ServerToolsUtils.SettingbyName("RankingBotName") + ": " + ServerToolsDataBank.Ranks.getRankList().get(i).message);
+                            player.sendTextMessage(ServerToolsGeneralUtils.SettingbyName("RankingBotChatColour") + ServerToolsGeneralUtils.SettingbyName("RankingBotName") + ": " + ServerToolsDataBank.Ranks.getRankList().get(i).message);
                         }
                     }
                 }
@@ -31,7 +33,7 @@ public class ServerToolsTimersInit {
     }
     
     public void initRestartTimer(){
-        ServerToolsDataBank.restartTimer = new Timer(Float.parseFloat(ServerToolsUtils.SettingbyName("RestartWarningsCheckInterval")), 0f, -1, ()->{
+        ServerToolsDataBank.restartTimer = new Timer(Float.parseFloat(ServerToolsGeneralUtils.SettingbyName("RestartWarningsCheckInterval")), 0f, -1, ()->{
             LocalDateTime now = LocalDateTime.now();
             for (LocalDateTime cdatetime : ServerToolsDataBank.restartWarningTimes){
                 if (now.isAfter(cdatetime)){
@@ -52,7 +54,7 @@ public class ServerToolsTimersInit {
             
             if (ServerToolsDataBank.allWarnings[i] == ServerToolsDataBank.minSecondWarning){
                 Timer timer = new Timer(ServerToolsDataBank.maxMinuteWarning * 60 - ServerToolsDataBank.allWarnings[i], 0f, 0, ()->{
-                    STM.getServer().broadcastTextMessage(ServerToolsUtils.SettingbyName("RestartWarningsChatColour") + ServerToolsUtils.SettingbyName("RestartWarningsBotName") + ": Server restarting in " + Integer.toString(minutesToRestart) + " minutes and " + Integer.toString(secondsToRestart) + " seconds");
+                    STM.getServer().broadcastTextMessage(ServerToolsGeneralUtils.SettingbyName("RestartWarningsChatColour") + ServerToolsGeneralUtils.SettingbyName("RestartWarningsBotName") + ": Server restarting in " + Integer.toString(minutesToRestart) + " minutes and " + Integer.toString(secondsToRestart) + " seconds");
                     
                     Timer timer2 = new Timer(60f, 0f, 0, ()->{
                         ServerToolsDataBank.restartWarningTimes.remove(triggerWarningTime);
@@ -67,7 +69,7 @@ public class ServerToolsTimersInit {
             }
             else{
                 Timer timer = new Timer(ServerToolsDataBank.maxMinuteWarning * 60 - ServerToolsDataBank.allWarnings[i], 0f, 0, ()->{
-                    STM.getServer().broadcastTextMessage(ServerToolsUtils.SettingbyName("RestartWarningsChatColour") + ServerToolsUtils.SettingbyName("RestartWarningsBotName") + ": Server restarting in " + Integer.toString(minutesToRestart) + " minutes and " + Integer.toString(secondsToRestart) + " seconds");
+                    STM.getServer().broadcastTextMessage(ServerToolsGeneralUtils.SettingbyName("RestartWarningsChatColour") + ServerToolsGeneralUtils.SettingbyName("RestartWarningsBotName") + ": Server restarting in " + Integer.toString(minutesToRestart) + " minutes and " + Integer.toString(secondsToRestart) + " seconds");
                 });
                 
                 ServerToolsDataBank.TimerList.getTimers().add(timer);
@@ -81,7 +83,7 @@ public class ServerToolsTimersInit {
         ArrayList<Timer> timers = new ArrayList<>();
         for (int i=0;i<ann.size();i++){
             if (ann.get(i).type.equals("recurring") && ann.get(i).recur > 0){
-                final String message = ann.get(i).colourcode + ServerToolsUtils.SettingbyName("AutoMessageBotName") + ": " + ann.get(i).text;
+                final String message = ann.get(i).colourcode + ServerToolsGeneralUtils.SettingbyName("AutoMessageBotName") + ": " + ann.get(i).text;
                 Timer timer = new Timer(ann.get(i).recur,0f,-1,()->{
                     STM.getServer().broadcastTextMessage(message);
                 });
@@ -95,7 +97,7 @@ public class ServerToolsTimersInit {
     }
     
     public void voteDayTimerInit(){
-        ServerToolsDataBank.voteDayTimer = new Timer(1f, 0f, Integer.parseInt(ServerToolsUtils.SettingbyName("VoteDayTimerDuration")), ()->{
+        ServerToolsDataBank.voteDayTimer = new Timer(1f, 0f, Integer.parseInt(ServerToolsGeneralUtils.SettingbyName("VoteDayTimerDuration")), ()->{
             boolean timerDone = false;
             for (Player player : STM.getServer().getAllPlayers()){
                 GuiLabel personalVoteDayTimerLabel = (GuiLabel) player.getAttribute("STVoteDayTimerLabel");
@@ -104,24 +106,24 @@ public class ServerToolsTimersInit {
                     personalVoteDayTimerLabel.setText(Integer.toString(seconds));
                 }
                 else{
-                    ServerToolsUtils.showHideVoteDayGui(player, false);
+                    ServerToolsShowHideGui.showHideVoteDayGui(player, false);
                     player.setMouseCursorVisible(false);
-                    personalVoteDayTimerLabel.setText(ServerToolsUtils.SettingbyName("VoteDayTimerDuration"));
+                    personalVoteDayTimerLabel.setText(ServerToolsGeneralUtils.SettingbyName("VoteDayTimerDuration"));
                     timerDone = true;
                 }
             }
             if (timerDone){
-                if (((float) (ServerToolsDataBank.noVotes + ServerToolsDataBank.yesVotes)/ServerToolsDataBank.NoPlayers)*100 >= Float.parseFloat(ServerToolsUtils.SettingbyName("VoteDayPercentageQuota"))){
+                if (((float) (ServerToolsDataBank.noVotes + ServerToolsDataBank.yesVotes)/ServerToolsDataBank.NoPlayers)*100 >= Float.parseFloat(ServerToolsGeneralUtils.SettingbyName("VoteDayPercentageQuota"))){
                     if (ServerToolsDataBank.yesVotes > ServerToolsDataBank.noVotes){
-                        STM.getServer().broadcastTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "/voteday was successful with " + ServerToolsDataBank.yesVotes + " yes and " + ServerToolsDataBank.noVotes + " no votes");
+                        STM.getServer().broadcastTextMessage(ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + "/voteday was successful with " + ServerToolsDataBank.yesVotes + " yes and " + ServerToolsDataBank.noVotes + " no votes");
                         STM.getServer().setGameTime(8, 0);
                     }
                     else{
-                        STM.getServer().broadcastTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "/voteday failed with " + ServerToolsDataBank.yesVotes + " yes and " + ServerToolsDataBank.noVotes + " no votes");
+                        STM.getServer().broadcastTextMessage(ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + "/voteday failed with " + ServerToolsDataBank.yesVotes + " yes and " + ServerToolsDataBank.noVotes + " no votes");
                     }
                 }
                 else{
-                    STM.getServer().broadcastTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "/voteday failed because less than " + ServerToolsUtils.SettingbyName("VoteDayPercentageQuota") + "% of the currently online players voted");
+                    STM.getServer().broadcastTextMessage(ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + "/voteday failed because less than " + ServerToolsGeneralUtils.SettingbyName("VoteDayPercentageQuota") + "% of the currently online players voted");
                 }
             }
         });

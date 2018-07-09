@@ -4,8 +4,9 @@ import ServerTools.ServerToolsDataBank;
 import ServerTools.ServerToolsDataBase;
 import ServerTools.ServerToolsMain;
 import ServerTools.ServerToolsObjects;
-import ServerTools.ServerToolsUtils;
+import ServerTools.Utils.ServerToolsGeneralUtils;
 import ServerTools.ServerToolsTimersInit;
+import ServerTools.Utils.ServerToolsShowHideGui;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -34,8 +35,43 @@ public class ServerToolsCommandListener implements Listener {
         String command = event.getCommand();
         String[] cmd = command.split(" ");
         if (cmd[0].equals("/st")){
-            if (player.isAdmin() || player.getPermissionGroup().equals(ServerToolsUtils.SettingbyName("PluginAdminAccessPermGroup"))){
-                if (cmd.length >= 2){
+            if (player.isAdmin() || player.getPermissionGroup().equals(ServerToolsGeneralUtils.SettingbyName("PluginAdminAccessPermGroup"))){
+                if (cmd.length == 1){
+                    if (player.hasAttribute("STCurrentTab")){
+                        int currentTab = (int) player.getAttribute("STCurrentTab");
+                        player.setMouseCursorVisible(true);
+                        ServerToolsShowHideGui.showHideMainGui(player, true);
+                        switch (currentTab) {
+                            case ServerToolsDataBank.GENERAL_TAB_GUI:
+                                ServerToolsShowHideGui.showHideGeneralTabGui(player, true);
+                                break;
+                            case ServerToolsDataBank.MESSAGES_TAB_GUI:
+                                ServerToolsShowHideGui.showHideMessagesTabGui(player, true);
+                                break;
+                            case ServerToolsDataBank.ANNOUNCEMENTS_TAB_GUI:
+                                ServerToolsShowHideGui.showHideAnnouncementsTabGui(player, true);
+                                break;
+                            case ServerToolsDataBank.RANKING_TAB_GUI:
+                                ServerToolsShowHideGui.showHideRankingTabGui(player, true);
+                                break;
+                            case ServerToolsDataBank.BANNED_LISTS_TAB_GUI:
+                                ServerToolsShowHideGui.showHideBannedListsTabGui(player, true);
+                                break;
+                            case ServerToolsDataBank.BLACKLIST_TAB_GUI:
+                                ServerToolsShowHideGui.showHideBlacklistTabGui(player, true);
+                                break;
+                            case ServerToolsDataBank.REST_WARN_TAB_GUI:
+                                ServerToolsShowHideGui.showHideRestWarnTabGui(player, true);
+                                break;
+                            case ServerToolsDataBank.SETTINGS_TAB_GUI:
+                                ServerToolsShowHideGui.showHideSettingsTabGui(player, true);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+                else if (cmd.length >= 2){
                     switch (cmd[1]) {
                         case "lastonline":
                             if (cmd.length == 3){
@@ -48,7 +84,7 @@ public class ServerToolsCommandListener implements Listener {
                                             String datestr = Sdf.format(olddate);
                                             Date date = new Date();
                                             long difference = (date.getTime() - olddate.getTime())/(1000*60*60*24);
-                                            player.sendTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "Player " + cmd[2] + " was last online on: " + datestr + ". That was " + Long.toString(difference) + " days ago");
+                                            player.sendTextMessage(ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + "Player " + cmd[2] + " was last online on: " + datestr + ". That was " + Long.toString(difference) + " days ago");
                                         }
                                     }
                                     catch(SQLException e){
@@ -66,21 +102,21 @@ public class ServerToolsCommandListener implements Listener {
                                     case "show":
                                         if (ServerToolsDataBank.BlackList.getBlackList() != null && !ServerToolsDataBank.BlackList.getBlackList().isEmpty()){
                                             for (ServerToolsObjects.blacklistplayer bp : ServerToolsDataBank.BlackList.getBlackList()){
-                                                player.sendTextMessage(ServerToolsUtils.SettingbyName("PoliceBotChatColour") + ServerToolsUtils.SettingbyName("PoliceBotName") + ": Player " + bp.name + " said: " + bp.offence);
+                                                player.sendTextMessage(ServerToolsGeneralUtils.SettingbyName("PoliceBotChatColour") + ServerToolsGeneralUtils.SettingbyName("PoliceBotName") + ": Player " + bp.name + " said: " + bp.offence);
                                             }
                                         }
                                         else{
-                                            player.sendTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "Blacklist is empty");
+                                            player.sendTextMessage(ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + "Blacklist is empty");
                                         }
                                         break;
                                     case "clear":
                                         if (ServerToolsDataBank.BlackList.getBlackList() != null && !ServerToolsDataBank.BlackList.getBlackList().isEmpty()){
                                             ServerToolsDataBank.BlackList.getBlackList().clear();
                                             STM.WriteBlackListTxt();
-                                            player.sendTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "Blacklist has been cleared");
+                                            player.sendTextMessage(ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + "Blacklist has been cleared");
                                         }
                                         else{
-                                            player.sendTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "Blacklist is empty");
+                                            player.sendTextMessage(ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + "Blacklist is empty");
                                         }
                                         break;
                                     default:
@@ -103,8 +139,8 @@ public class ServerToolsCommandListener implements Listener {
                                     healplayer.setThirst(100);
                                     healplayer.setBrokenBones(false);
                                     healplayer.setBleeding(false);
-                                    healplayer.sendTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "You have been healed by " + player.getName());
-                                    player.sendTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "You have healed " + healplayer.getName());
+                                    healplayer.sendTextMessage(ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + "You have been healed by " + player.getName());
+                                    player.sendTextMessage(ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + "You have healed " + healplayer.getName());
                                 }
                                 else{
                                     player.sendTextMessage("[#FF0000]You have to provide a correct player name!");
@@ -120,7 +156,7 @@ public class ServerToolsCommandListener implements Listener {
                                     int tod = Integer.parseInt(cmd[2]);
                                     if (tod >= 0 && tod <= 23){
                                         STM.getServer().setGameTime(tod, 0);
-                                        STM.getServer().broadcastTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "Time has been changed by " + player.getName());
+                                        STM.getServer().broadcastTextMessage(ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + "Time has been changed by " + player.getName());
                                     }
                                     else{
                                         player.sendTextMessage("[#FF0000]You have to provide a valid integer between 0 and 23!");
@@ -145,7 +181,7 @@ public class ServerToolsCommandListener implements Listener {
                                 }
                                 if (weather != null){
                                     STM.getServer().setWeather(weather, true);
-                                    STM.getServer().broadcastTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "Weather has been changed by " + player.getName());
+                                    STM.getServer().broadcastTextMessage(ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + "Weather has been changed by " + player.getName());
                                 }
                                 else{
                                     player.sendTextMessage("[#FF0000]You have to provide a valid weather type!");
@@ -161,7 +197,7 @@ public class ServerToolsCommandListener implements Listener {
                                     float newtimespeed = Float.parseFloat(cmd[2]);
                                     float oldtimespeed = STM.getServer().getGameTimeSpeed();
                                     STM.getServer().setGameTimeSpeed(newtimespeed);
-                                    STM.getServer().broadcastTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "GameTimeSpeed has been changed from " + Float.toString(oldtimespeed) + " to " + Float.toString(newtimespeed) + " by " + player.getName());
+                                    STM.getServer().broadcastTextMessage(ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + "GameTimeSpeed has been changed from " + Float.toString(oldtimespeed) + " to " + Float.toString(newtimespeed) + " by " + player.getName());
                                 }
                                 catch (NumberFormatException e){
                                     player.sendTextMessage("[#FF0000]You have to provide a valid float point number!");
@@ -170,9 +206,9 @@ public class ServerToolsCommandListener implements Listener {
                             break;
                         case "list":
                             if(cmd.length == 2) {
-                                player.sendTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "Automated messages list:");
+                                player.sendTextMessage(ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + "Automated messages list:");
                                 for (int i=0;i<ServerToolsDataBank.messagelist.getMessages().size();i++){
-                                    player.sendTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + Integer.toString(ServerToolsDataBank.messagelist.getMessages().get(i).number) + " " + ServerToolsDataBank.messagelist.getMessages().get(i).name);
+                                    player.sendTextMessage(ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + Integer.toString(ServerToolsDataBank.messagelist.getMessages().get(i).number) + " " + ServerToolsDataBank.messagelist.getMessages().get(i).name);
                                 }
                             }
                             else{
@@ -192,7 +228,7 @@ public class ServerToolsCommandListener implements Listener {
                                         }
                                         for(int i=0;i<MNi.length;i++){
                                             if (MNi[i] > 0 && MNi[i] < ServerToolsDataBank.messagelist.getMessages().size()+1){
-                                                STM.getServer().broadcastTextMessage(ServerToolsDataBank.messagelist.getMessages().get(MNi[i]-1).colourcode + ServerToolsUtils.SettingbyName("AutoMessageBotName") + ": " + ServerToolsDataBank.messagelist.getMessages().get(MNi[i]-1).text);
+                                                STM.getServer().broadcastTextMessage(ServerToolsDataBank.messagelist.getMessages().get(MNi[i]-1).colourcode + ServerToolsGeneralUtils.SettingbyName("AutoMessageBotName") + ": " + ServerToolsDataBank.messagelist.getMessages().get(MNi[i]-1).text);
                                             }
                                             else{
                                                 player.sendTextMessage("[#FF0000]Please enter the number of a valid automated message, type /st list to see all valid inputs");
@@ -216,7 +252,7 @@ public class ServerToolsCommandListener implements Listener {
                                         if (pmplayer != null){
                                             for(int i=0;i<MNi.length;i++){
                                                 if (MNi[i] > 0 && MNi[i] < ServerToolsDataBank.messagelist.getMessages().size()+1){
-                                                    pmplayer.sendTextMessage(ServerToolsDataBank.messagelist.getMessages().get(MNi[i]-1).colourcode + ServerToolsUtils.SettingbyName("AutoMessageBotName") + ": " + ServerToolsDataBank.messagelist.getMessages().get(MNi[i]-1).text);
+                                                    pmplayer.sendTextMessage(ServerToolsDataBank.messagelist.getMessages().get(MNi[i]-1).colourcode + ServerToolsGeneralUtils.SettingbyName("AutoMessageBotName") + ": " + ServerToolsDataBank.messagelist.getMessages().get(MNi[i]-1).text);
                                                 }
                                                 else{
                                                     pmplayer.sendTextMessage("[#FF0000]Please enter the number of a valid automated message, type /st list to see all valid inputs");
@@ -244,7 +280,7 @@ public class ServerToolsCommandListener implements Listener {
                                     String messageout = null;
                                     for (int i=0;i<ServerToolsDataBank.messagelist.getMessages().size();i++){
                                         if (MS.equals(ServerToolsDataBank.messagelist.getMessages().get(i).name)){
-                                            messageout = ServerToolsDataBank.messagelist.getMessages().get(i).colourcode + ServerToolsUtils.SettingbyName("AutoMessageBotName") + ": " + ServerToolsDataBank.messagelist.getMessages().get(i).text;
+                                            messageout = ServerToolsDataBank.messagelist.getMessages().get(i).colourcode + ServerToolsGeneralUtils.SettingbyName("AutoMessageBotName") + ": " + ServerToolsDataBank.messagelist.getMessages().get(i).text;
                                         }
                                     }
                                     if (messageout == null){
@@ -261,7 +297,7 @@ public class ServerToolsCommandListener implements Listener {
                                     messageout = null;
                                     for (int i=0;i<ServerToolsDataBank.messagelist.getMessages().size();i++){
                                         if (MS.equals(ServerToolsDataBank.messagelist.getMessages().get(i).name)){
-                                            messageout = ServerToolsDataBank.messagelist.getMessages().get(i).colourcode + ServerToolsUtils.SettingbyName("AutoMessageBotName") + ": " + ServerToolsDataBank.messagelist.getMessages().get(i).text;
+                                            messageout = ServerToolsDataBank.messagelist.getMessages().get(i).colourcode + ServerToolsGeneralUtils.SettingbyName("AutoMessageBotName") + ": " + ServerToolsDataBank.messagelist.getMessages().get(i).text;
                                         }
                                     }
                                     if (messageout == null){
@@ -289,35 +325,35 @@ public class ServerToolsCommandListener implements Listener {
                                     case "onlogin":
                                         for (int i=0;i<ann.size();i++){
                                             if (ann.get(i).type.equals("onlogin")){
-                                                player.sendTextMessage(ann.get(i).colourcode + ServerToolsUtils.SettingbyName("AutoMessageBotName") + ": " + ann.get(i).text);
+                                                player.sendTextMessage(ann.get(i).colourcode + ServerToolsGeneralUtils.SettingbyName("AutoMessageBotName") + ": " + ann.get(i).text);
                                             }
                                         }
                                         break;
                                     case "onloginnew":
                                         for (int i=0;i<ann.size();i++){
                                             if (ann.get(i).type.equals("onloginnew")){
-                                                player.sendTextMessage(ann.get(i).colourcode + ServerToolsUtils.SettingbyName("AutoMessageBotName") + ": " + ann.get(i).text);
+                                                player.sendTextMessage(ann.get(i).colourcode + ServerToolsGeneralUtils.SettingbyName("AutoMessageBotName") + ": " + ann.get(i).text);
                                             }
                                         }
                                         break;
                                     case "onloginadmin":
                                         for (int i=0;i<ann.size();i++){
                                             if (ann.get(i).type.equals("onloginadmin")){
-                                                player.sendTextMessage(ann.get(i).colourcode + ServerToolsUtils.SettingbyName("AutoMessageBotName") + ": " + ann.get(i).text);
+                                                player.sendTextMessage(ann.get(i).colourcode + ServerToolsGeneralUtils.SettingbyName("AutoMessageBotName") + ": " + ann.get(i).text);
                                             }
                                         }
                                         break;
                                     case "onloginadminbroadcast":
                                         for (int i=0;i<ann.size();i++){
                                             if (ann.get(i).type.equals("onloginadminbroadcast")){
-                                                player.sendTextMessage(ann.get(i).colourcode + ServerToolsUtils.SettingbyName("AutoMessageBotName") + ": " + ann.get(i).text);
+                                                player.sendTextMessage(ann.get(i).colourcode + ServerToolsGeneralUtils.SettingbyName("AutoMessageBotName") + ": " + ann.get(i).text);
                                             }
                                         }
                                         break;
                                     case "recurring":
                                         for (int i=0;i<ann.size();i++){
                                             if (ann.get(i).type.equals("recurring")){
-                                                player.sendTextMessage(ann.get(i).colourcode + ServerToolsUtils.SettingbyName("AutoMessageBotName") + ": " + ann.get(i).text +  ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + " | Occurs every: " + ann.get(i).recur + "seconds");
+                                                player.sendTextMessage(ann.get(i).colourcode + ServerToolsGeneralUtils.SettingbyName("AutoMessageBotName") + ": " + ann.get(i).text +  ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + " | Occurs every: " + ann.get(i).recur + "seconds");
                                             }
                                         }
                                         break;
@@ -341,21 +377,21 @@ public class ServerToolsCommandListener implements Listener {
                                     timer.kill();
                                 }
                                 STTI.RecurringMessages();
-                                if (ServerToolsUtils.SettingbyName("RankingBotMode").equals("on")){
+                                if (ServerToolsGeneralUtils.SettingbyName("RankingBotMode").equals("on")){
                                     STTI.RankCheckTimerInit();
                                 }
-                                if (ServerToolsUtils.SettingbyName("RestartWarningsMode").equals("on")){
+                                if (ServerToolsGeneralUtils.SettingbyName("RestartWarningsMode").equals("on")){
                                     ServerToolsDataBank.restartTimer.kill();
                                     STM.readRestartWarnings();
                                     STTI.initRestartTimer();
                                 }
-                                if (ServerToolsUtils.SettingbyName("VoteDayCommand").equals("on")){
+                                if (ServerToolsGeneralUtils.SettingbyName("VoteDayCommand").equals("on")){
                                     for (Player p : STM.getServer().getAllPlayers()){
                                         GuiLabel personalVoteDayTimerLabel = (GuiLabel) p.getAttribute("STVoteDayTimerLabel");
-                                        personalVoteDayTimerLabel.setText(ServerToolsUtils.SettingbyName("VoteDayTimerDuration"));
+                                        personalVoteDayTimerLabel.setText(ServerToolsGeneralUtils.SettingbyName("VoteDayTimerDuration"));
                                     }
                                 }
-                                player.sendTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "ServerTools plugin has been successfully reloaded");
+                                player.sendTextMessage(ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + "ServerTools plugin has been successfully reloaded");
                             }
                             else{
                                 player.sendTextMessage("[#FF0000]You have to provide a correct ServerTools command!");
@@ -365,30 +401,30 @@ public class ServerToolsCommandListener implements Listener {
                         case "help":
                             switch (cmd.length){
                                 case 2:
-                                    player.sendTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "Available ServerTools Commands:");
-                                    player.sendTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "/st help blacklist, show help for blacklist");
-                                    player.sendTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "/st help am, show help for automates messages");
-                                    player.sendTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "/st lastonline playername, show the date when a player was last on the server");
-                                    player.sendTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "/st heal playername, heals named player");
-                                    player.sendTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "/st tod hour, sets the server time, where hour an integer between 0 and 23");
-                                    player.sendTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "/st weather weathername, sets the server weather, weathername can be any of: clear, default, densefog, fog, heavyrain, heavyrainthunder, overcast, rain, rainthunder, storm");
-                                    player.sendTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "/st timespeed float, sets the server game time speed");
-                                    player.sendTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "/st reload, used to read the text files again without the need to restart your server");
+                                    player.sendTextMessage(ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + "Available ServerTools Commands:");
+                                    player.sendTextMessage(ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + "/st help blacklist, show help for blacklist");
+                                    player.sendTextMessage(ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + "/st help am, show help for automates messages");
+                                    player.sendTextMessage(ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + "/st lastonline playername, show the date when a player was last on the server");
+                                    player.sendTextMessage(ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + "/st heal playername, heals named player");
+                                    player.sendTextMessage(ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + "/st tod hour, sets the server time, where hour an integer between 0 and 23");
+                                    player.sendTextMessage(ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + "/st weather weathername, sets the server weather, weathername can be any of: clear, default, densefog, fog, heavyrain, heavyrainthunder, overcast, rain, rainthunder, storm");
+                                    player.sendTextMessage(ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + "/st timespeed float, sets the server game time speed");
+                                    player.sendTextMessage(ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + "/st reload, used to read the text files again without the need to restart your server");
                                     break;
                                 case 3:
                                     switch (cmd[2]){
                                         case "am":
-                                            player.sendTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "Available AutomatedMessages Commands:");
-                                            player.sendTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "/st list, lists all available automated messages");
-                                            player.sendTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "/st sayn comma separated numbers, broadcasts the selected automated messages by message number");
-                                            player.sendTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "/st sayt messagename, broadcasts the selected automated message by message name");
-                                            player.sendTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "optionally you can add a player name at the end of the /am say* commands to send a personal automated message");
-                                            player.sendTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "/st anntest annid, used to test automated announcements, annid can be any of: onlogin, onloginnew, onloginadminbroadcast, onloginadmin, or recurring");
+                                            player.sendTextMessage(ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + "Available AutomatedMessages Commands:");
+                                            player.sendTextMessage(ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + "/st list, lists all available automated messages");
+                                            player.sendTextMessage(ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + "/st sayn comma separated numbers, broadcasts the selected automated messages by message number");
+                                            player.sendTextMessage(ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + "/st sayt messagename, broadcasts the selected automated message by message name");
+                                            player.sendTextMessage(ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + "optionally you can add a player name at the end of the /am say* commands to send a personal automated message");
+                                            player.sendTextMessage(ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + "/st anntest annid, used to test automated announcements, annid can be any of: onlogin, onloginnew, onloginadminbroadcast, onloginadmin, or recurring");
                                             break;
                                         case "blacklist":
-                                            player.sendTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "Available blacklist Commands:");
-                                            player.sendTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "/st blacklist show, displays the blacklist in the chat");
-                                            player.sendTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "/st blacklist clear, clears the blacklist of all entries");
+                                            player.sendTextMessage(ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + "Available blacklist Commands:");
+                                            player.sendTextMessage(ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + "/st blacklist show, displays the blacklist in the chat");
+                                            player.sendTextMessage(ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + "/st blacklist clear, clears the blacklist of all entries");
                                             break;
                                         default:
                                             player.sendTextMessage("[#FF0000]You have to provide a correct ServerTools command!");
@@ -418,8 +454,8 @@ public class ServerToolsCommandListener implements Listener {
             }
         }
         else if (cmd[0].equals("/autogm1")){
-            if (ServerToolsUtils.SettingbyName("Autogm1Mode").equals("on")){
-                if (!player.getPermissionGroup().equals(ServerToolsUtils.SettingbyName("Autogm1DeniedPermGroup"))){
+            if (ServerToolsGeneralUtils.SettingbyName("Autogm1Mode").equals("on")){
+                if (!player.getPermissionGroup().equals(ServerToolsGeneralUtils.SettingbyName("Autogm1DeniedPermGroup"))){
                     if (cmd.length == 2){
                         ServerToolsObjects.autoGM1listplayer autoGM1Player = STO.new  autoGM1listplayer();
                         ArrayList<ServerToolsObjects.autoGM1listplayer> players = ServerToolsDataBank.Autogm1List.getAutogm1List();
@@ -429,7 +465,7 @@ public class ServerToolsCommandListener implements Listener {
                                 for (int i=0;i<players.size();i++){
                                     if (players.get(i).playerUserID == player.getUID()){
                                         addcheck = false;
-                                        player.sendTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "You are already in the autogm1 list!");
+                                        player.sendTextMessage(ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + "You are already in the autogm1 list!");
                                     }
                                 }
                                 if (addcheck == true){
@@ -438,7 +474,7 @@ public class ServerToolsCommandListener implements Listener {
                                     autoGM1Player.playerUserID = player.getUID();
                                     ServerToolsDataBank.Autogm1List.getAutogm1List().add(autoGM1Player);
                                     player.setCreativeModeEnabled(true);
-                                    player.sendTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "You have been succesfully added to the autogm1 list!");
+                                    player.sendTextMessage(ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + "You have been succesfully added to the autogm1 list!");
                                 }
                                 break;
                             case "del":
@@ -450,31 +486,31 @@ public class ServerToolsCommandListener implements Listener {
                                         autoGM1Player.playerUserID = player.getUID();
                                         ServerToolsDataBank.Autogm1List.getAutogm1List().remove(autoGM1Player);
                                         player.setCreativeModeEnabled(false);
-                                        player.sendTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "You have been succesfully removed from the autogm1 list!");
+                                        player.sendTextMessage(ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + "You have been succesfully removed from the autogm1 list!");
                                         delcheck = true;
                                         break;
                                     }
                                 }
                                 if (delcheck == false){
-                                    player.sendTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "You are not in the autogm1 list!");
+                                    player.sendTextMessage(ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + "You are not in the autogm1 list!");
                                 }
                                 break;
                             case "list":
-                                if (player.isAdmin() || player.getPermissionGroup().equals(ServerToolsUtils.SettingbyName("PluginAdminAccessPermGroup"))){
+                                if (player.isAdmin() || player.getPermissionGroup().equals(ServerToolsGeneralUtils.SettingbyName("PluginAdminAccessPermGroup"))){
                                     ArrayList<ServerToolsObjects.autoGM1listplayer> autoGM1list = ServerToolsDataBank.Autogm1List.getAutogm1List();
                                     int count = 1;
                                     for (ServerToolsObjects.autoGM1listplayer autoGM1player : autoGM1list){
-                                        player.sendTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + count + " " + autoGM1player.playerName + " " + Long.toString(autoGM1player.playerUserID));
+                                        player.sendTextMessage(ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + count + " " + autoGM1player.playerName + " " + Long.toString(autoGM1player.playerUserID));
                                         count += 1;
                                     }
                                 }
                                 break;
                             case "help":
-                                player.sendTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "Available Autogm1 Commands:");
-                                player.sendTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "/autogm1 set, add yourself to the list for auto gm 1 upon login");
-                                player.sendTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "/autogm1 del, remove yourself from the list for auto gm 1 upon login");
-                                if (player.isAdmin() || player.getPermissionGroup().equals(ServerToolsUtils.SettingbyName("PluginAdminAccessPermGroup"))){
-                                    player.sendTextMessage(ServerToolsUtils.SettingbyName("GeneralPluginTextColour") + "/autogm1 list, shows all UIDs in the autogm1 list");
+                                player.sendTextMessage(ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + "Available Autogm1 Commands:");
+                                player.sendTextMessage(ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + "/autogm1 set, add yourself to the list for auto gm 1 upon login");
+                                player.sendTextMessage(ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + "/autogm1 del, remove yourself from the list for auto gm 1 upon login");
+                                if (player.isAdmin() || player.getPermissionGroup().equals(ServerToolsGeneralUtils.SettingbyName("PluginAdminAccessPermGroup"))){
+                                    player.sendTextMessage(ServerToolsGeneralUtils.SettingbyName("GeneralPluginTextColour") + "/autogm1 list, shows all UIDs in the autogm1 list");
                                 }
                                 break;
                             default:
@@ -494,13 +530,13 @@ public class ServerToolsCommandListener implements Listener {
             }
         }
         else if (cmd[0].equals("/voteday")){
-            if (ServerToolsUtils.SettingbyName("VoteDayCommand").equals("on")){
+            if (ServerToolsGeneralUtils.SettingbyName("VoteDayCommand").equals("on")){
                 if (cmd.length == 1){
                     if (!ServerToolsDataBank.voteDayCoolDownTimer.isActive()){
-                        ServerToolsDataBank.voteDayCoolDownTimer = new Timer(Float.parseFloat(ServerToolsUtils.SettingbyName("VoteDayTimerDuration")) + Float.parseFloat(ServerToolsUtils.SettingbyName("VoteDayTimerCoolDown")), 0f, 0, ()->{ ServerToolsDataBank.voteDayCoolDownTimer.pause(); });
+                        ServerToolsDataBank.voteDayCoolDownTimer = new Timer(Float.parseFloat(ServerToolsGeneralUtils.SettingbyName("VoteDayTimerDuration")) + Float.parseFloat(ServerToolsGeneralUtils.SettingbyName("VoteDayTimerCoolDown")), 0f, 0, ()->{ ServerToolsDataBank.voteDayCoolDownTimer.pause(); });
                         ServerToolsDataBank.voteDayCoolDownTimer.start();
                         for (Player p : STM.getServer().getAllPlayers()){
-                            ServerToolsUtils.showHideVoteDayGui(p, true);
+                            ServerToolsShowHideGui.showHideVoteDayGui(p, true);
                             p.setMouseCursorVisible(true);
                         }
                         ServerToolsDataBank.yesVotes = 0;
@@ -509,7 +545,7 @@ public class ServerToolsCommandListener implements Listener {
                         STTI.voteDayTimerInit();
                     }
                     else{
-                        player.sendTextMessage("[#FF0000]A /voteday has been recently triggered! Please wait " + Integer.toString(Integer.parseInt(ServerToolsUtils.SettingbyName("VoteDayTimerDuration")) + Integer.parseInt(ServerToolsUtils.SettingbyName("VoteDayTimerCoolDown")) - (int) ServerToolsDataBank.voteDayCoolDownTimer.getTick()) + " seconds until you can trigger a new vote!");
+                        player.sendTextMessage("[#FF0000]A /voteday has been recently triggered! Please wait " + Integer.toString(Integer.parseInt(ServerToolsGeneralUtils.SettingbyName("VoteDayTimerDuration")) + Integer.parseInt(ServerToolsGeneralUtils.SettingbyName("VoteDayTimerCoolDown")) - (int) ServerToolsDataBank.voteDayCoolDownTimer.getTick()) + " seconds until you can trigger a new vote!");
                     }
                 }
             }
